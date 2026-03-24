@@ -252,7 +252,9 @@
                 </div>
                 <div class="mt-auto pt-4 border-t">
                     <p id="modal-price" class="text-2xl font-bold mb-4 text-black"></p>
-                    <button id="modal-add-btn" class="w-full bg-lime-accent text-white py-4 font-bold hover:bg-green-600 transition uppercase tracking-widest text-xs">Добавить в корзину</button>
+                    <button id="modal-add-btn" class="w-full bg-[#8bc34a] text-white py-4 font-bold hover:bg-green-600 transition uppercase tracking-widest text-xs">
+    Добавить в корзину
+</button>
                 </div>
             </div>
         </div>
@@ -342,7 +344,7 @@
                         <span id="qty-grid-${p.id}" class="text-sm font-bold">1</span>
                         <button onclick="changeQtyInGrid(${p.id}, 1)" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100">+</button>
                     </div>
-                    <button onclick="addToCart(${p.id})" class="w-full bg-lime-accent text-white py-2 rounded-sm text-[10px] font-bold uppercase tracking-widest">В КОРЗИНУ</button>
+                    <button onclick="addToCart(${p.id})" class="w-full bg-[#8bc34a] text-white py-3 rounded-sm text-[11px] font-bold uppercase tracking-widest hover:bg-green-600 transition">В КОРЗИНУ</button>
                 </div>
             </div>
         `).join('');
