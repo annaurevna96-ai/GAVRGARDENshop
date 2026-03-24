@@ -59,12 +59,11 @@
                 padding: 20px;
                 box-shadow: 0 10px 15px rgba(0,0,0,0.05);
                 text-align: center;
-                gap: 20px !important; /* Tailwind space-x-8 сбрасываем */
+                gap: 20px !important;
             }
             .nav-links.active { display: flex; }
             .burger-menu { display: flex; }
             
-            /* Уменьшаем главный заголовок на мобилках */
             h1 { font-size: 2rem !important; line-height: 1.2 !important; }
             .hero-section { h-height: auto !important; padding: 80px 0 !important; }
         }
@@ -123,26 +122,26 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
                 <a href="shop.html?cat=fruit" class="group relative h-64 md:h-80 overflow-hidden rounded-lg">
                     <img src="34.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                        <span class="text-white font-bold text-lg md:text-xl uppercase tracking-wider">Плодовые</span>
+                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-4">
+                        <span class="text-white font-bold text-lg md:text-xl uppercase tracking-wider text-center">Плодовые</span>
                     </div>
                 </a>
                 <a href="shop.html?cat=bushes" class="group relative h-64 md:h-80 overflow-hidden rounded-lg">
                     <img src="1.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                        <span class="text-white font-bold text-lg md:text-xl uppercase tracking-wider">Декоративные кустарники</span>
+                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-4">
+                        <span class="text-white font-bold text-lg md:text-xl uppercase tracking-wider text-center">Декоративные кустарники</span>
                     </div>
                 </a>
                 <a href="shop.html?cat=flowers" class="group relative h-64 md:h-80 overflow-hidden rounded-lg">
                     <img src="2.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                        <span class="text-white font-bold text-lg md:text-xl uppercase tracking-wider text-center px-2">Многолетние цветы</span>
+                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-4">
+                        <span class="text-white font-bold text-lg md:text-xl uppercase tracking-wider text-center">Многолетние цветы</span>
                     </div>
                 </a>
                 <a href="shop.html?cat=strawberry" class="group relative h-64 md:h-80 overflow-hidden rounded-lg">
                     <img src="3.jpg" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
-                        <span class="text-white font-bold text-lg md:text-xl uppercase tracking-wider">Клубника</span>
+                    <div class="absolute inset-0 bg-black/30 flex items-center justify-center p-4">
+                        <span class="text-white font-bold text-lg md:text-xl uppercase tracking-wider text-center">Клубника</span>
                     </div>
                 </a>
             </div>
@@ -179,7 +178,7 @@
     <footer class="bg-stone-900 text-white py-12 md:py-16">
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
             <div>
-                <div class="text-xl font-bold mb-6">ГАВРСАД</span></div>
+                <div class="text-xl font-bold mb-6">ГАВРСАД</div>
                 <p class="text-gray-400 text-sm">Ваш надежный партнер в создании идеального сада. Работаем по всей Московской области.</p>
             </div>
             <div>
@@ -199,7 +198,6 @@
     </footer>
 
     <script>
-        // Скрипт для бургера
         const burger = document.getElementById('burger-menu');
         const nav = document.getElementById('nav-links');
 
@@ -207,7 +205,6 @@
             nav.classList.toggle('active');
         });
 
-        // Закрытие при клике на ссылку
         document.querySelectorAll('#nav-links a').forEach(link => {
             link.addEventListener('click', () => {
                 nav.classList.remove('active');
