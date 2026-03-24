@@ -176,6 +176,10 @@
                     <option value="сдек">СДЭК</option>
                     <option value="озон">Озон Доставка</option>
                 </select>
+                <select id="payment-method" class="w-full border p-3 rounded-sm text-sm text-gray-600 bg-gray-50 mb-4">
+                <option value="при получении">Оплата при получении</option>
+                <option value="СБП">Оплата онлайн (СБП)</option>
+                </select>
                 <div id="address-fields" class="hidden">
                     <input type="text" id="user-address" placeholder="Адрес доставки или ПВЗ" class="w-full border p-3 rounded-sm text-sm">
                 </div>
@@ -372,30 +376,24 @@
 document.getElementById('order-form').onsubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
-    // Генерируем номер заказа: GG-деньмесяц-рандомное число
     const orderNum = `GG-${now.getDate()}${now.getMonth()+1}-${Math.floor(Math.random() * 900) + 100}`;
     
-    // --- НАСТРОЙКИ (УЖЕ ЗАПОЛНЕНЫ) ---
-    const token = "8496420537:AAGqpJo5g-6YOU6V41oinK6TOzOuSebuwxU"; // Твой бот
-    const chatId = "6414550624"; // Твой чат
-    const serviceID = "service_xvmjux7"; // Твой сервис EmailJS
-    const clientTemplate = "template_yrijit4"; // Шаблон для клиента
-    
-    // Сюда вставь ID нового шаблона, когда создашь его в EmailJS
+    const token = "8496420537:AAGqpJo5g-6YOU6V41oinK6TOzOuSebuwxU";
+    const chatId = "6414550624";
+    const serviceID = "service_xvmjux7";
+    const clientTemplate = "template_yrijit4";
     const adminTemplate = "template_uneryow"; 
 
-    // Собираем данные из полей формы
     const uName = document.getElementById('user-name').value;
     const uEmail = document.getElementById('user-email').value;
     const uPhone = document.getElementById('user-phone').value;
     const delivery = document.getElementById('delivery-method').value;
     const addr = document.getElementById('user-address').value || 'Самовывоз';
+    const payment = document.getElementById('payment-method').value;
     const total = document.getElementById('cart-total').innerText;
 
-    // Формируем список товаров
     let itemsList = cart.map(item => `• ${item.name} (${item.pot}) - ${item.quantity} шт.`).join('\n');
     
-    // Параметры для писем
     const emailParams = {
         order_number: orderNum,
         user_name: uName,
@@ -403,35 +401,39 @@ document.getElementById('order-form').onsubmit = async (e) => {
         user_email: uEmail,
         order_items: itemsList,
         total_price: total,
-        delivery_info: `${delivery}. Адрес: ${addr}`
+        delivery_info: `${delivery}. Адрес: ${addr}`,
+        payment_method: payment
     };
 
-    // 1. ОТПРАВКА В TELEGRAM (Метод POST)
-    // Работает "фоном", чтобы не задерживать заказ клиента
     fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
             chat_id: chatId,
-            text: `🔔 <b>НОВЫЙ ЗАКАЗ №${orderNum}</b>\n👤 Имя: ${uName}\n📞 Тел: ${uPhone}\n💰 Сумма: ${total} р.`,
+            text: `🔔 <b>НОВЫЙ ЗАКАЗ №${orderNum}</b>\n👤 Имя: ${uName}\n📞 Тел: ${uPhone}\n💳 Оплата: ${payment}\n💰 Сумма: ${total} р.`,
             parse_mode: 'html'
         })
     }).catch(() => console.log("TG skip"));
 
     try {
-        // 2. ОТПРАВКА ПИСЬМА КЛИЕНТУ
         await emailjs.send(serviceID, clientTemplate, emailParams);
-        
-        // 3. ОТПРАВКА ПИСЬМА ТЕБЕ (АДМИНУ)
-        // Если adminTemplate еще не создан, эта часть может выдать ошибку,
-        // но благодаря блоку try-catch клиент всё равно увидит успех.
         await emailjs.send(serviceID, adminTemplate, emailParams);
 
-        alert(`Заказ №${orderNum} успешно оформлен! Мы свяжемся с вами по номеру ${uPhone}.`);
+        if (payment === 'СБП') {
+            alert(`Заказ №${orderNum} оформлен! Переходим к оплате через СБП.`);
+            window.location.href = `https://finance.ozon.ru/apps/sbp/ozonbankpay/019d204c-8d0f-7765-bc01-58afc599a293?sum=${total}`;
+        } else {
+            alert(`Заказ №${orderNum} успешно оформлен! Оплата при получении.`);
+        }
     } catch (err) {
-        // Запасной вариант, если EmailJS не сработал
-        alert("Заказ оформлен! Мы перезвоним вам в ближайшее время.");
+        alert("Заказ принят! Мы свяжемся с вами в ближайшее время.");
     }
+
+    cart = [];
+    updateCartIcon();
+    toggleCart();
+    e.target.reset();
+};
 
     // Очистка корзины и формы
     cart = [];
