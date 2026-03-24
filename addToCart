@@ -192,14 +192,17 @@
     (function() { emailjs.init("sDpkySOMJAEq-WLWh"); })();
 
     let allProducts = [];
-    let cart = [];
+    // Изменено: Загрузка корзины из localStorage при старте
+    let cart = JSON.parse(localStorage.getItem('gavrCart')) || []; 
     let slideInterval;
 
     fetch('products.json')
         .then(res => res.json())
-        .then(data => { allProducts = data; });
+        .then(data => { 
+            allProducts = data; 
+            updateCartIcon(); // Обновляем иконку сразу после загрузки данных
+        });
 
-    // НОВАЯ ФУНКЦИЯ: Показ категорий
     function showCategories() {
         document.getElementById('categories-grid').classList.remove('hidden');
         document.getElementById('products-grid').classList.add('hidden');
@@ -278,6 +281,10 @@
         if (product) {
             const existing = cart.find(item => item.id === productId);
             if (existing) { existing.quantity += quantity; } else { cart.push({...product, quantity: quantity}); }
+            
+            // Сохранение в localStorage
+            localStorage.setItem('gavrCart', JSON.stringify(cart));
+            
             updateCartIcon();
             if(qtyEl) qtyEl.innerText = 1;
             renderCart();
@@ -316,10 +323,19 @@
     function changeCartQty(index, delta) {
         if (cart[index].quantity + delta >= 1) cart[index].quantity += delta;
         else cart.splice(index, 1);
+        
+        // Сохранение в localStorage
+        localStorage.setItem('gavrCart', JSON.stringify(cart));
+        
         renderCart(); updateCartIcon();
     }
 
-    function removeFromCart(index) { cart.splice(index, 1); renderCart(); updateCartIcon(); }
+    function removeFromCart(index) { 
+        cart.splice(index, 1); 
+        // Сохранение в localStorage
+        localStorage.setItem('gavrCart', JSON.stringify(cart));
+        renderCart(); updateCartIcon(); 
+    }
 
     function updateDeliveryFields() {
         const method = document.getElementById('delivery-method').value;
@@ -332,7 +348,6 @@
         const payment = document.getElementById('payment-method').value;
         const orderNum = `GG-${Date.now().toString().slice(-5)}`;
 
-        // Твоя логика Telegram и EmailJS (я её не меняла)
         const token = "8496420537:AAGqpJo5g-6YOU6V41oinK6TOzOuSebuwxU";
         const chatId = "6414550624";
         const uName = document.getElementById('user-name').value;
@@ -354,7 +369,11 @@
         } else {
             alert(`Заказ №${orderNum} оформлен! Оплата при получении.`);
         }
-        cart = []; updateCartIcon(); toggleCart(); e.target.reset();
+        
+        // Очистка корзины и localStorage после заказа
+        cart = []; 
+        localStorage.removeItem('gavrCart');
+        updateCartIcon(); toggleCart(); e.target.reset();
     };
     </script>
 
