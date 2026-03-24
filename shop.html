@@ -419,10 +419,11 @@ document.getElementById('order-form').onsubmit = async (e) => {
         await emailjs.send(serviceID, clientTemplate, emailParams);
         await emailjs.send(serviceID, adminTemplate, emailParams);
 
-        if (payment === 'СБП') {
-            alert(`Заказ №${orderNum} оформлен! Переходим к оплате через СБП.`);
-            window.location.href = `https://finance.ozon.ru/apps/sbp/ozonbankpay/019d204c-8d0f-7765-bc01-58afc599a293?sum=${total}`;
-        } else {
+        if if (payment === 'СБП') {
+    // Добавим напоминание про сумму в алерт на случай, если ссылка ее не подставит
+    alert(`Заказ №${orderNum} оформлен на сумму ${total} ₽. Сейчас вы перейдете к оплате СБП. Пожалуйста, введите сумму ${total} ₽ вручную, если она не подставится автоматически.`);
+    window.location.href = `https://finance.ozon.ru/apps/sbp/ozonbankpay/019d204c-8d0f-7765-bc01-58afc599a293?sum=${total}`;
+}
             alert(`Заказ №${orderNum} успешно оформлен! Оплата при получении.`);
         }
     } catch (err) {
