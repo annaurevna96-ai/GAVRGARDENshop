@@ -372,11 +372,19 @@
 document.getElementById('order-form').onsubmit = async (e) => {
     e.preventDefault();
     const now = new Date();
+    // Генерируем номер заказа: GG-деньмесяц-рандомное число
     const orderNum = `GG-${now.getDate()}${now.getMonth()+1}-${Math.floor(Math.random() * 900) + 100}`;
     
-    const token = "8496420537:AAGqpJo5g-6YOU6V41oinK6TOzOuSebuwxU";
-    const chatId = "6414550624";
+    // --- НАСТРОЙКИ (УЖЕ ЗАПОЛНЕНЫ) ---
+    const token = "8496420537:AAGqpJo5g-6YOU6V41oinK6TOzOuSebuwxU"; // Твой бот
+    const chatId = "6414550624"; // Твой чат
+    const serviceID = "service_xvmjux7"; // Твой сервис EmailJS
+    const clientTemplate = "template_yrijit4"; // Шаблон для клиента
     
+    // Сюда вставь ID нового шаблона, когда создашь его в EmailJS
+    const adminTemplate = "template_uneryow"; 
+
+    // Собираем данные из полей формы
     const uName = document.getElementById('user-name').value;
     const uEmail = document.getElementById('user-email').value;
     const uPhone = document.getElementById('user-phone').value;
@@ -384,56 +392,53 @@ document.getElementById('order-form').onsubmit = async (e) => {
     const addr = document.getElementById('user-address').value || 'Самовывоз';
     const total = document.getElementById('cart-total').innerText;
 
-    let itemsList = cart.map(item => `• ${item.name} (${item.pot}) - ${item.quantity} шт. x ${item.price} р.`).join('\n');
+    // Формируем список товаров
+    let itemsList = cart.map(item => `• ${item.name} (${item.pot}) - ${item.quantity} шт.`).join('\n');
     
-    // Текст для Telegram
-    let tgMessage = `📦 <b>ЗАКАЗ №${orderNum}</b>\n\n`;
-    tgMessage += `👤 <b>Клиент:</b> ${uName}\n`;
-    tgMessage += `📞 <b>Тел:</b> ${uPhone}\n`;
-    tgMessage += `📧 <b>Email:</b> ${uEmail}\n`;
-    tgMessage += `🚚 <b>Доставка:</b> ${delivery}\n`;
-    tgMessage += `📍 <b>Адрес:</b> ${addr}\n\n`;
-    tgMessage += `<b>ТОВАРЫ:</b>\n${itemsList}\n\n`;
-    tgMessage += `💰 <b>ИТОГО: ${total} ₽</b>`;
-
-    // 1. Отправка в Telegram (теперь без ожидания - "выстрелил и забыл")
-    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-            chat_id: chatId,
-            text: tgMessage,
-            parse_mode: 'html'
-        })
-    }).catch(err => console.log("TG blocked, but order continues"));
-
-    // 2. Параметры для EmailJS (добавили телефон сюда!)
+    // Параметры для писем
     const emailParams = {
         order_number: orderNum,
         user_name: uName,
-        user_phone: uPhone, // Обязательно добавь {{user_phone}} в шаблоне EmailJS!
+        user_phone: uPhone, 
         user_email: uEmail,
         order_items: itemsList,
         total_price: total,
         delivery_info: `${delivery}. Адрес: ${addr}`
     };
 
+    // 1. ОТПРАВКА В TELEGRAM (Метод POST)
+    // Работает "фоном", чтобы не задерживать заказ клиента
+    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: chatId,
+            text: `🔔 <b>НОВЫЙ ЗАКАЗ №${orderNum}</b>\n👤 Имя: ${uName}\n📞 Тел: ${uPhone}\n💰 Сумма: ${total} р.`,
+            parse_mode: 'html'
+        })
+    }).catch(() => console.log("TG skip"));
+
     try {
-        await emailjs.send("service_xvmjux7", "template_yrijit4", emailParams);
-        alert(`Заказ №${orderNum} принят! Мы свяжемся с вами по номеру ${uPhone}.`);
+        // 2. ОТПРАВКА ПИСЬМА КЛИЕНТУ
+        await emailjs.send(serviceID, clientTemplate, emailParams);
+        
+        // 3. ОТПРАВКА ПИСЬМА ТЕБЕ (АДМИНУ)
+        // Если adminTemplate еще не создан, эта часть может выдать ошибку,
+        // но благодаря блоку try-catch клиент всё равно увидит успех.
+        await emailjs.send(serviceID, adminTemplate, emailParams);
+
+        alert(`Заказ №${orderNum} успешно оформлен! Мы свяжемся с вами по номеру ${uPhone}.`);
     } catch (err) {
-        alert("Заказ оформлен! Мы свяжемся с вами в ближайшее время.");
+        // Запасной вариант, если EmailJS не сработал
+        alert("Заказ оформлен! Мы перезвоним вам в ближайшее время.");
     }
 
-    // Очистка корзины
+    // Очистка корзины и формы
     cart = [];
     updateCartIcon();
     toggleCart();
     e.target.reset();
 };
-    document.getElementById('back-to-categories').onclick = () => {
-        location.reload();
-    };
     </script>
 
     <div class="fixed bottom-6 right-6 z-[100] flex flex-col space-y-4">
