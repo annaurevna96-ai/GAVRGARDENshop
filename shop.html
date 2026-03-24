@@ -29,6 +29,17 @@
                 <a href="index.html" class="hover:text-lime-600 hidden sm:inline">Главная</a>
                 <a href="shop.html" class="text-lime-600">Магазин</a>
                 <a href="services.html" class="hover:text-lime-600 hidden md:inline">Услуги</a>
+                <div class="burger-menu" id="burger-menu">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<nav class="nav-links" id="nav-links">
+    <a href="index.html">Главная</a>
+    <a href="shop.html">Магазин</a>
+    <a href="contacts.html">Контакты</a>
+</nav>
                 <div class="relative cursor-pointer ml-2" onclick="toggleCart()">
                     <span class="text-xl">🛒</span>
                     <span id="cart-count" class="absolute -top-2 -right-2 bg-red-500 text-white text-[10px] rounded-full h-4 w-4 flex items-center justify-center font-bold">0</span>
@@ -432,6 +443,23 @@
         toggleCart();
     }
 };
+        const burger = document.getElementById('burger-menu');
+const nav = document.getElementById('nav-links');
+
+if (burger) {
+    burger.addEventListener('click', () => {
+        nav.classList.toggle('active');
+        // Анимация самого бургера (опционально)
+        burger.classList.toggle('open');
+    });
+}
+
+// Закрываем меню при клике на любую ссылку
+document.querySelectorAll('.nav-links a').forEach(link => {
+    link.addEventListener('click', () => {
+        nav.classList.remove('active');
+    });
+});
     </script>
 
     <div class="fixed bottom-6 right-6 z-[100]">
