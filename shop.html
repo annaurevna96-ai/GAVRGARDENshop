@@ -342,39 +342,96 @@
         document.getElementById('address-fields').className = (method === 'самовывоз') ? 'hidden' : 'block';
     }
 
-    document.getElementById('order-form').onsubmit = async (e) => {
-        e.preventDefault();
-        const total = document.getElementById('cart-total').innerText;
-        const payment = document.getElementById('payment-method').value;
-        const orderNum = `GG-${Date.now().toString().slice(-5)}`;
+  document.getElementById('order-form').onsubmit = async (e) => {
+    e.preventDefault();
+    const now = new Date();
+    // Генерируем номер заказа
+    const orderNum = `GG-${now.getDate()}${now.getMonth()+1}-${Math.floor(Math.random() * 900) + 100}`;
+    
+    // --- НАСТРОЙКИ ---
+    const token = "8496420537:AAGqpJo5g-6YOU6V41oinK6TOzOuSebuwxU"; 
+    const chatId = "6414550624"; 
+    const serviceID = "service_xvmjux7"; 
+    const clientTemplate = "template_yrijit4"; 
+    const adminTemplate = "template_uneryow"; // Здесь можешь поставить ID своего второго шаблона
 
-        const token = "8496420537:AAGqpJo5g-6YOU6V41oinK6TOzOuSebuwxU";
-        const chatId = "6414550624";
-        const uName = document.getElementById('user-name').value;
-        const uPhone = document.getElementById('user-phone').value;
+    // Собираем данные
+    const uName = document.getElementById('user-name').value;
+    const uEmail = document.getElementById('user-email').value;
+    const uPhone = document.getElementById('user-phone').value;
+    const delivery = document.getElementById('delivery-method').value;
+    const addr = document.getElementById('user-address').value || 'Самовывоз';
+    const total = document.getElementById('cart-total').innerText;
+    const payment = document.getElementById('payment-method').value;
 
-        fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                chat_id: chatId,
-                text: `🔔 НОВЫЙ ЗАКАЗ №${orderNum}\n👤 Имя: ${uName}\n📞 Тел: ${uPhone}\n💰 Сумма: ${total} р.`,
-                parse_mode: 'html'
-            })
-        });
+    // Формируем список товаров (для TG и Почты)
+    const itemsList = cart.map(item => `• ${item.name} (${item.pot || '—'}) - ${item.quantity} шт. x ${item.price} ₽`).join('\n');
+    
+    // Параметры для писем
+    const emailParams = {
+        order_number: orderNum,
+        user_name: uName,
+        user_phone: uPhone, 
+        user_email: uEmail,
+        order_items: itemsList,
+        total_price: total,
+        delivery_info: `${delivery}. Адрес: ${addr}`,
+        payment_method: payment
+    };
 
+    // 1. КРАСИВЫЙ TELEGRAM (как на твоем скрине)
+    const botMessage = `📦 <b>ЗАКАЗ №${orderNum}</b>\n\n` +
+                       `👤 <b>Клиент:</b> ${uName}\n` +
+                       `📞 <b>Тел:</b> ${uPhone}\n` +
+                       `📧 <b>Email:</b> ${uEmail}\n` +
+                       `🚚 <b>Доставка:</b> ${delivery}\n` +
+                       `📍 <b>Адрес:</b> ${addr}\n\n` +
+                       `<b>ТОВАРЫ:</b>\n${itemsList}\n\n` +
+                       `💰 <b>ИТОГО: ${total} ₽</b>\n` +
+                       `💳 <b>Оплата:</b> ${payment}`;
+
+    fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            chat_id: chatId,
+            text: botMessage,
+            parse_mode: 'html'
+        })
+    }).catch(() => console.log("TG error"));
+
+    try {
+        // 2. ОТПРАВКА КЛИЕНТУ И АДМИНУ
+        await Promise.all([
+            emailjs.send(serviceID, clientTemplate, emailParams),
+            emailjs.send(serviceID, adminTemplate, emailParams)
+        ]);
+
+        // Логика оплаты и уведомление
         if (payment === 'СБП') {
-            alert(`Заказ №${orderNum} на ${total} ₽ оформлен. Переходим к оплате.`);
+            alert(`Заказ №${orderNum} оформлен. Переходим к оплате.`);
+            // Очищаем память ПЕРЕД редиректом, чтобы корзина не висела
+            cart = [];
+            localStorage.removeItem('gavrCart');
             window.location.href = `https://finance.ozon.ru/apps/sbp/ozonbankpay/019d204c-8d0f-7765-bc01-58afc599a293?sum=${total}`;
         } else {
-            alert(`Заказ №${orderNum} оформлен! Оплата при получении.`);
+            alert(`Заказ №${orderNum} успешно оформлен! Мы свяжемся с вами по номеру ${uPhone}.`);
+            cart = [];
+            localStorage.removeItem('gavrCart');
+            updateCartIcon();
+            toggleCart();
+            e.target.reset();
         }
-        
-        // Очистка корзины и localStorage после заказа
-        cart = []; 
+
+    } catch (err) {
+        alert("Заказ оформлен! Мы перезвоним вам в ближайшее время.");
+        // Даже если почта упала, корзину чистим, так как заказ в TG ушел
+        cart = [];
         localStorage.removeItem('gavrCart');
-        updateCartIcon(); toggleCart(); e.target.reset();
-    };
+        updateCartIcon();
+        toggleCart();
+    }
+};
     </script>
 
     <div class="fixed bottom-6 right-6 z-[100]">
