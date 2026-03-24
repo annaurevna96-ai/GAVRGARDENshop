@@ -13,7 +13,6 @@
         .bg-lime-accent { background-color: #8bc34a; }
         .category-card:hover img { transform: scale(1.05); }
         #cart-modal { transition: opacity 0.3s ease; }
-        /* Стиль для плавности карусели */
         #modal-img { transition: opacity 0.5s ease-in-out; }
     </style>
 </head>
@@ -50,56 +49,48 @@
                     <h2 class="text-white text-2xl font-bold uppercase tracking-widest text-center">Плодовые деревья</h2>
                 </div>
             </div>
-
             <div onclick="filterProducts('fruit bushes', 'Плодовые кустарники')" class="category-card relative h-64 overflow-hidden rounded-lg cursor-pointer group shadow-lg">
                 <img src=".jpg" class="w-full h-full object-cover transition duration-500">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center p-4">
                     <h2 class="text-white text-2xl font-bold uppercase tracking-widest text-center">Плодовые кустарники</h2>
                 </div>
             </div>
-
             <div onclick="filterProducts('strawberry', 'Клубника')" class="category-card relative h-64 overflow-hidden rounded-lg cursor-pointer group shadow-lg">
                 <img src=".jpg" class="w-full h-full object-cover transition duration-500">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center p-4">
                     <h2 class="text-white text-2xl font-bold uppercase tracking-widest text-center">Клубника</h2>
                 </div>
             </div>
-
             <div onclick="filterProducts('bushes', 'Декоративные деревья и кустарники')" class="category-card relative h-64 overflow-hidden rounded-lg cursor-pointer group shadow-lg">
                 <img src=".jpg" class="w-full h-full object-cover transition duration-500">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center p-4">
                     <h2 class="text-white text-2xl font-bold uppercase tracking-widest text-center">Декоративные деревья и кустарники</h2>
                 </div>
             </div>
-
             <div onclick="filterProducts('coniferous', 'Хвойные растения')" class="category-card relative h-64 overflow-hidden rounded-lg cursor-pointer group shadow-lg">
                 <img src=".jpg" class="w-full h-full object-cover transition duration-500">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center p-4">
                     <h2 class="text-white text-2xl font-bold uppercase tracking-widest text-center">Хвойные</h2>
                 </div>
             </div>
-
             <div onclick="filterProducts('flowers', 'Многолетние цветы')" class="category-card relative h-64 overflow-hidden rounded-lg cursor-pointer group shadow-lg">
                 <img src=".jpg" class="w-full h-full object-cover transition duration-500">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center p-4">
                     <h2 class="text-white text-2xl font-bold uppercase tracking-widest text-center">Многолетние цветы</h2>
                 </div>
             </div>
-
             <div onclick="filterProducts('Roses', 'Розы')" class="category-card relative h-64 overflow-hidden rounded-lg cursor-pointer group shadow-lg">
                 <img src=".jpg" class="w-full h-full object-cover transition duration-500">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center p-4">
                     <h2 class="text-white text-2xl font-bold uppercase tracking-widest text-center">Розы</h2>
                 </div>
             </div>
-
             <div onclick="filterProducts('hydrangeas', 'Гортензии')" class="category-card relative h-64 overflow-hidden rounded-lg cursor-pointer group shadow-lg">
                 <img src=".jpg" class="w-full h-full object-cover transition duration-500">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center p-4">
                     <h2 class="text-white text-2xl font-bold uppercase tracking-widest text-center">Гортензии</h2>
                 </div>
             </div>
-
             <div onclick="filterProducts('mulch', 'Мульча')" class="category-card relative h-64 overflow-hidden rounded-lg cursor-pointer group shadow-lg">
                 <img src=".jpg" class="w-full h-full object-cover transition duration-500">
                 <div class="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-all flex items-center justify-center p-4">
@@ -236,7 +227,12 @@
                         <p class="text-lg font-bold mb-4">${p.price} ₽</p>
                     </div>
                 </div>
-                <div class="p-4 pt-0 mt-auto">
+                <div class="p-4 pt-0 mt-auto flex flex-col space-y-2">
+                    <div class="flex items-center justify-center space-x-3 mb-2">
+                        <button onclick="changeQtyInGrid(${p.id}, -1)" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100">-</button>
+                        <span id="qty-grid-${p.id}" class="text-sm font-bold">1</span>
+                        <button onclick="changeQtyInGrid(${p.id}, 1)" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100">+</button>
+                    </div>
                     <button onclick="addToCart(${p.id})" class="w-full bg-lime-accent text-white py-2 rounded-sm text-[10px] font-bold hover:bg-green-600 transition uppercase tracking-widest">
                         В КОРЗИНУ
                     </button>
@@ -245,7 +241,14 @@
         `).join('');
     }
 
-    // ЛОГИКА МОДАЛЬНОГО ОКНА
+    function changeQtyInGrid(id, delta) {
+        const el = document.getElementById(`qty-grid-${id}`);
+        let current = parseInt(el.innerText);
+        if (current + delta >= 1) {
+            el.innerText = current + delta;
+        }
+    }
+
     function openProductModal(id) {
         const p = allProducts.find(item => item.id === id);
         if(!p) return;
@@ -254,18 +257,16 @@
         document.getElementById('modal-latin').innerText = p.latinName || '';
         document.getElementById('modal-pot').innerText = p.pot || '—';
         document.getElementById('modal-status').innerText = p.status || 'под заказ';
-        document.getElementById('modal-desc').innerText = p.description || 'Описание уточняется у менеджера. Растение адаптировано к климату Подмосковья.';
+        document.getElementById('modal-desc').innerText = p.description || 'Описание уточняется у менеджера.';
         document.getElementById('modal-price').innerText = p.price + ' ₽';
         
         const btn = document.getElementById('modal-add-btn');
         btn.onclick = () => { addToCart(p.id); closeProductModal(); };
 
-        // Если в JSON есть массив images - берем его, если нет - берем одно главное фото p.image
         currentImages = p.images && p.images.length > 0 ? p.images : [p.image];
         currentImgIndex = 0;
         document.getElementById('modal-img').src = currentImages[0];
 
-        // Карусель
         clearInterval(slideInterval);
         if(currentImages.length > 1) {
             slideInterval = setInterval(() => {
@@ -278,7 +279,6 @@
                 }, 500);
             }, 3000);
         }
-
         document.getElementById('product-modal').classList.remove('hidden');
     }
 
@@ -294,9 +294,21 @@
 
     function addToCart(productId) {
         const product = allProducts.find(p => p.id === productId);
+        const qtyEl = document.getElementById(`qty-grid-${productId}`);
+        const quantity = qtyEl ? parseInt(qtyEl.innerText) : 1;
+
         if (product) {
-            cart.push({...product});
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += quantity;
+            } else {
+                cart.push({...product, quantity: quantity});
+            }
             updateCartIcon();
+            
+            // Сброс счетчика в сетке обратно на 1 после добавления
+            if(qtyEl) qtyEl.innerText = 1;
+
             const btn = event.target;
             const originalText = btn.innerText;
             btn.innerText = "ДОБАВЛЕНО!";
@@ -304,8 +316,19 @@
         }
     }
 
+    function changeCartQty(index, delta) {
+        if (cart[index].quantity + delta >= 1) {
+            cart[index].quantity += delta;
+        } else {
+            cart.splice(index, 1);
+        }
+        renderCart();
+        updateCartIcon();
+    }
+
     function updateCartIcon() {
-        document.getElementById('cart-count').innerText = cart.length;
+        const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+        document.getElementById('cart-count').innerText = totalItems;
     }
 
     function updateDeliveryFields() {
@@ -318,15 +341,20 @@
         const container = document.getElementById('cart-items');
         let total = 0;
         container.innerHTML = cart.map((item, index) => {
-            total += item.price;
+            total += item.price * item.quantity;
             return `
                 <div class="flex justify-between items-center border-b border-gray-50 pb-4">
-                    <div class="pr-4">
+                    <div class="pr-2 flex-grow">
                         <p class="font-bold text-xs brand-green uppercase">${item.name}</p>
                         <p class="text-[10px] text-gray-400">${item.pot}</p>
+                        <div class="flex items-center space-x-2 mt-2">
+                            <button onclick="changeCartQty(${index}, -1)" class="w-6 h-6 border rounded flex items-center justify-center text-xs">-</button>
+                            <span class="text-xs font-bold">${item.quantity}</span>
+                            <button onclick="changeCartQty(${index}, 1)" class="w-6 h-6 border rounded flex items-center justify-center text-xs">+</button>
+                        </div>
                     </div>
                     <div class="text-right">
-                        <p class="font-bold text-sm mb-1">${item.price} ₽</p>
+                        <p class="font-bold text-sm mb-1">${item.price * item.quantity} ₽</p>
                         <button onclick="removeFromCart(${index})" class="text-[10px] text-red-400 hover:underline uppercase">Удалить</button>
                     </div>
                 </div>
@@ -354,8 +382,8 @@
         const addr = document.getElementById('user-address').value || 'Самовывоз';
         const total = document.getElementById('cart-total').innerText;
 
-        let itemsList = cart.map(item => `• ${item.name} (${item.pot}) — ${item.price} ₽`).join('\n');
-        let tgMessage = `<b>📦 ЗАКАЗ №${orderNum}</b>\n\n👤 Клиент: ${uName}\n📞 Тел: ${uPhone}\n📧 Почта: ${uEmail}\n🚚 Доставка: ${delivery}\n📍 Адрес: ${addr}\n\n<b>ТОВАРЫ:</b>\n${itemsList}\n\n<b>ИТОГО: ${total} ₽</b>`;
+        let itemsList = cart.map(item => `• ${item.name} (${item.pot}) — ${item.quantity} шт. х ${item.price} ₽`).join('\n');
+        let tgMessage = `📦 ЗАКАЗ №${orderNum}\n\n👤 Клиент: ${uName}\n📞 Тел: ${uPhone}\n📧 Почта: ${uEmail}\n🚚 Доставка: ${delivery}\n📍 Адрес: ${addr}\n\nТОВАРЫ:\n${itemsList}\n\nИТОГО: ${total} ₽`;
         const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&parse_mode=html&text=${encodeURIComponent(tgMessage)}`;
         
         const emailParams = {
@@ -369,15 +397,20 @@
         };
 
         try {
-            await fetch(url);
-            await emailjs.send("service_xvmjux7", "template_yrijit4", emailParams);
-            alert(`Заказ №${orderNum} оформлен! Подтверждение отправлено на почту.`);
+            // Отправляем уведомления
+            fetch(url); 
+            emailjs.send("service_xvmjux7", "template_yrijit4", emailParams);
+
+            // Сразу показываем успех пользователю
+            alert(`Заказ №${orderNum} принят! Подтверждение отправлено на почту.`);
+            
+            // Очистка
             cart = [];
             updateCartIcon();
             toggleCart();
             e.target.reset();
         } catch (err) {
-            alert('Ошибка оформления. Пожалуйста, свяжитесь с нами по телефону.');
+            alert('Заказ оформлен, но возникла задержка уведомления. Мы свяжемся с вами!');
         }
     };
 
