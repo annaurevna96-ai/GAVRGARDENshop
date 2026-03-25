@@ -71,7 +71,7 @@
 </head>
 <body class="bg-white">
 
-    <header>
+   <header>
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
             <div class="logo">
                 <span class="font-light">ГАВР</span><span class="bold">САД</span><span class="tag">МАГАЗИН</span>
@@ -85,7 +85,7 @@
             </nav>
 
             <div class="flex items-center gap-6">
-                <a href="tel:+79932460921" class="hidden lg:block font-bold text-dark-green">+7 (993) 246-09-21</a>
+                <a href="tel:+79932460921" class="hidden lg:block font-bold text-dark-green" itemprop="telephone">+7 (993) 246-09-21</a>
                 <div class="burger-menu" id="burger-menu">
                     <span></span>
                     <span></span>
@@ -96,10 +96,17 @@
     </header>
 
     <section class="hero-section relative min-h-[500px] md:h-[600px] flex items-center shadow-inner overflow-hidden">
-        <img src="15.jpg" class="absolute inset-0 w-full h-full object-cover -z-10 brightness-75" alt="Ландшафтный дизайн">
+        <img src="15.jpg" class="absolute inset-0 w-full h-full object-cover -z-10 brightness-75" alt="Ландшафтный дизайн и саженцы в Раменском районе - ГАВРСАД">
+        
         <div class="container mx-auto px-6">
             <div class="max-w-2xl text-white">
                 <h1 class="text-3xl md:text-5xl font-bold mb-6 leading-tight">Создаем сады, в которых хочется жить</h1>
+                
+                <div class="hidden" aria-hidden="true">
+                    Питомник растений ГАВРСАД: купить саженцы в Цибино, Белоозерский, Бронницах, Раменском, Воскресенске. 
+                    Продажа плодовых деревьев и декоративных кустарников в Московской области.
+                </div>
+
                 <p class="text-base md:text-lg mb-8 opacity-90">Полный цикл работ: от профессионального проектирования до подбора редких саженцев из собственного питомника.</p>
                 <div class="flex flex-col sm:flex-row gap-4">
                     <a href="shop.html" class="bg-lime-accent text-white px-8 py-4 rounded-sm font-bold btn-hover uppercase text-sm text-center">Перейти в магазин</a>
@@ -108,7 +115,6 @@
             </div>
         </div>
     </section>
-
     <section class="py-12 md:py-20">
         <div class="container mx-auto px-6">
             <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 gap-4">
