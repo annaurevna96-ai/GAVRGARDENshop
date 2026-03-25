@@ -9,74 +9,19 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
     <style>
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 5%;
-            background: #fff;
-            border-bottom: 1px solid #f0f0f0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+        /* ... (твой предыдущий код до .modal-overlay без изменений) ... */
 
-        .logo {
-            font-family: 'Montserrat', sans-serif;
-            font-size: 24px;
-            font-weight: 300;
-            letter-spacing: 4px;
-            color: #2d5a27;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-        .logo span { font-weight: 700; color: #2d5a27; }
-
-        .nav-links { display: flex; gap: 35px; }
-        .nav-links a {
-            text-decoration: none;
-            color: #4a4a4a;
-            font-weight: 400;
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
-        .nav-links a:hover { color: #8bc34a; }
-
-        .header-actions { display: flex; align-items: center; gap: 20px; }
-        .cart-icon { position: relative; cursor: pointer; }
-        .cart-icon img { width: 22px; filter: grayscale(1); }
-        
-        #cart-count {
-            position: absolute;
-            top: -8px;
-            right: -10px;
-            background: #ef4444;
-            color: white;
-            font-size: 9px;
-            padding: 2px 5px;
-            border-radius: 50%;
-        }
-
-        .burger-menu {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            width: 25px;
-            cursor: pointer;
-        }
-        .burger-menu span { display: block; height: 2px; width: 100%; background-color: #2d5a27; }
-
-        /* ОБЩИЕ СТИЛИ МОДАЛОК */
         .modal-overlay {
-            display: none !important; /* Гарантируем скрытие при загрузке */
+            display: none !important;
             position: fixed;
             inset: 0;
             background-color: rgba(0,0,0,0.7);
             z-index: 2000;
             padding: 20px;
             backdrop-filter: blur(2px);
+            /* Добавляем flex, чтобы центрировать карточку */
+            align-items: center;
+            justify-content: center;
         }
 
         /* КАРТОЧКА ТОВАРА - ОБНОВЛЕННАЯ СТРУКТУРА */
@@ -88,65 +33,44 @@
             margin: auto;
             border-radius: 12px;
             position: relative;
-            overflow: hidden; /* Скрываем общий скролл */
+            overflow: hidden; 
             display: flex;
             flex-direction: column;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            /* УБИРАЕМ КУРСИВ ВО ВСЕЙ КАРТОЧКЕ */
+            font-style: normal !important;
         }
 
-        /* КОРЗИНА */
-        #cart-modal .cart-panel {
-            background: white;
-            width: 100%;
-            max-width: 450px;
-            height: 100%;
-            margin-left: auto;
-            display: flex;
-            flex-direction: column;
-            position: relative;
+        /* Добавляем принудительный сброс курсива для всех вложенных элементов */
+        #product-modal * {
+            font-style: normal !important;
         }
 
-        #cart-items {
+        /* Ограничиваем область прокрутки только текстом, чтобы кнопка снизу была фиксированной */
+        #modal-desc-container {
             overflow-y: auto;
             flex-grow: 1;
         }
 
-        /* КНОПКИ ЗАКРЫТИЯ */
-        .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            z-index: 2100;
-            background: rgba(255,255,255,0.8);
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
+        /* Стили для фиксированного футера с кнопкой */
+        .modal-footer-fixed {
+            padding: 20px;
+            border-top: 1px solid #f0f0f0;
+            background: #white;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            color: #333;
-            cursor: pointer;
-            transition: 0.3s;
+            flex-shrink: 0; /* Не дает футеру сжиматься */
         }
-        .close-btn:hover { background: #fff; color: #000; }
+
+        /* ... (твой остальной код корзины и медиа-запросов без изменений) ... */
 
         @media (max-width: 768px) {
-            .nav-links {
-                display: none;
-                flex-direction: column;
-                position: absolute;
-                top: 70px;
-                left: 0;
-                width: 100%;
-                background: white;
-                padding: 20px 0;
-                box-shadow: 0 10px 15px rgba(0,0,0,0.05);
-                text-align: center;
-            }
+            /* ... твои стили ... */
             .nav-links.active { display: flex; }
             .burger-menu { display: flex; }
-            #product-modal .modal-content-wrapper { max-height: 95vh; overflow-y: auto; }
+            /* Исправляем мобильную высоту, чтобы не ломать логику фиксации кнопки */
+            #product-modal .modal-content-wrapper { max-height: 95vh; overflow: hidden; }
         }
     </style>
 </head>
@@ -228,11 +152,12 @@
                 <img id="modal-img" src="" class="w-full h-full object-contain max-h-[40vh] md:max-h-full">
             </div>
             <div class="md:w-1/2 p-6 md:p-10 flex flex-col h-full bg-white overflow-hidden">
+                
                 <div class="flex-grow overflow-y-auto pr-2">
-                    <p id="modal-latin" class="text-[10px] text-gray-400 uppercase italic mb-1 tracking-widest"></p>
+                    <p id="modal-latin" class="text-[10px] text-gray-400 uppercase mb-1 tracking-widest"></p>
                     <h2 id="modal-name" class="text-xl md:text-2xl font-bold text-[#2d5a27] mb-6 uppercase leading-tight"></h2>
                     
-                    <div class="text-sm space-y-4 mb-8">
+                    <div class="text-sm space-y-4 mb-4">
                         <div class="flex justify-between border-b border-gray-100 pb-2">
                             <span class="text-gray-400">Горшок:</span>
                             <span id="modal-pot" class="font-bold"></span>
@@ -243,13 +168,13 @@
                         </div>
                         <div class="pt-2">
                             <span class="text-gray-400 block mb-2">Описание:</span>
-                            <div id="modal-desc" class="text-gray-600 leading-relaxed italic text-[13px]"></div>
+                            <div id="modal-desc" class="text-gray-600 leading-relaxed text-[13px] whitespace-pre-line"></div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mt-6 border-t pt-6">
-                    <div class="flex items-center justify-between mb-6">
+                <div class="mt-auto border-t pt-4">
+                    <div class="flex items-center justify-between mb-4">
                         <span class="text-gray-400 uppercase text-[10px] tracking-widest">Стоимость:</span>
                         <p id="modal-price" class="text-3xl font-bold text-gray-900"></p>
                     </div>
@@ -259,7 +184,6 @@
         </div>
     </div>
 </div>
-
 <div id="cart-modal" class="modal-overlay">
     <div class="cart-panel">
         <div class="close-btn" onclick="toggleCart()">&times;</div>
