@@ -318,38 +318,50 @@
     }
 
     function renderProducts(products, title) {
-        document.getElementById('categories-grid').classList.add('hidden');
-        const prodGrid = document.getElementById('products-grid');
-        prodGrid.classList.remove('hidden');
-        document.getElementById('back-to-categories').classList.remove('hidden');
-        document.getElementById('page-title').innerText = title;
+    document.title = `${title} - Магазин растений ГАВРСАД`;
+    document.querySelector('meta[name="description"]').setAttribute("content", `Купить ${title} в питомнике ГАВРСАД. Саженцы с доставкой по Раменскому району и Московской области.`);
+    document.getElementById('categories-grid').classList.add('hidden');
+    const prodGrid = document.getElementById('products-grid');
+    prodGrid.classList.remove('hidden');
+    document.getElementById('back-to-categories').classList.remove('hidden');
+    document.getElementById('page-title').innerText = title;
 
-        prodGrid.innerHTML = products.map(p => `
-            <div class="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-sm flex flex-col h-full relative">
-                <span class="absolute top-2 left-2 px-2 py-1 text-[9px] font-bold uppercase rounded-sm z-10 ${p.status === 'в наличии' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">
-                    ${p.status || 'под заказ'}
-                </span>
-                <div class="cursor-pointer" onclick="openProductModal(${p.id})">
-                    <img src="${p.image}" class="w-full h-48 md:h-56 object-cover" alt="${p.name}">
-                    <div class="p-4 text-center flex-grow">
-                        <p class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 italic">${p.latinName || ''}</p>
-                        <h3 class="font-bold brand-green mb-1 uppercase text-xs leading-tight">${p.name}</h3>
-                        <p class="text-[10px] text-gray-500 mb-2 italic">Горшок: ${p.pot || '—'}</p>
-                        <p class="text-base font-bold mb-4">${p.price} ₽</p>
-                    </div>
-                </div>
-                <div class="p-4 pt-0 mt-auto flex flex-col space-y-2">
-                    <div class="flex items-center justify-center space-x-3 mb-2">
-                        <button onclick="changeQtyInGrid(${p.id}, -1)" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100">-</button>
-                        <span id="qty-grid-${p.id}" class="text-sm font-bold">1</span>
-                        <button onclick="changeQtyInGrid(${p.id}, 1)" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100">+</button>
-                    </div>
-                    <button onclick="addToCart(${p.id})" class="w-full bg-[#8bc34a] text-white py-3 rounded-sm text-[11px] font-bold uppercase tracking-widest hover:bg-green-600 transition">В КОРЗИНУ</button>
+    prodGrid.innerHTML = products.map(p => `
+        <div class="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-sm flex flex-col h-full relative" itemscope itemtype="https://schema.org/Product">
+            
+            <meta itemprop="name" content="${p.name}">
+            <meta itemprop="description" content="${p.seo_keywords || 'Саженцы из питомника ГАВРСАД'}">
+            <div itemprop="offers" itemscope itemtype="https://schema.org/Offer" class="hidden">
+                <meta itemprop="price" content="${p.price}">
+                <meta itemprop="priceCurrency" content="RUB">
+                <link itemprop="availability" href="${p.status === 'в наличии' ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock'}">
+            </div>
+
+            <span class="absolute top-2 left-2 px-2 py-1 text-[9px] font-bold uppercase rounded-sm z-10 ${p.status === 'в наличии' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">
+                ${p.status || 'под заказ'}
+            </span>
+            <div class="cursor-pointer" onclick="openProductModal(${p.id})">
+                <img src="${p.image}" class="w-full h-48 md:h-56 object-cover" alt="${p.name}" itemprop="image">
+                <div class="p-4 text-center flex-grow">
+                    <p class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 italic">${p.latinName || ''}</p>
+                    <h3 class="font-bold brand-green mb-1 uppercase text-xs leading-tight">${p.name}</h3>
+                    <div class="hidden" aria-hidden="true">${p.seo_keywords || ''}</div>
+                    <p class="text-[10px] text-gray-500 mb-2 italic">Горшок: ${p.pot || '—'}</p>
+                    <p class="text-base font-bold mb-4">${p.price} ₽</p>
                 </div>
             </div>
-        `).join('');
-        window.scrollTo(0,0);
-    }
+            <div class="p-4 pt-0 mt-auto flex flex-col space-y-2">
+                <div class="flex items-center justify-center space-x-3 mb-2">
+                    <button onclick="changeQtyInGrid(${p.id}, -1)" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100">-</button>
+                    <span id="qty-grid-${p.id}" class="text-sm font-bold">1</span>
+                    <button onclick="changeQtyInGrid(${p.id}, 1)" class="w-8 h-8 rounded-full border border-gray-200 flex items-center justify-center hover:bg-gray-100">+</button>
+                </div>
+                <button onclick="addToCart(${p.id})" class="w-full bg-[#8bc34a] text-white py-3 rounded-sm text-[11px] font-bold uppercase tracking-widest hover:bg-green-600 transition">В КОРЗИНУ</button>
+            </div>
+        </div>
+    `).join('');
+    window.scrollTo(0,0);
+}
 
     function changeQtyInGrid(id, delta) {
         const el = document.getElementById(`qty-grid-${id}`);
