@@ -453,6 +453,7 @@ modal-desc-container::-webkit-scrollbar-thumb {
         document.getElementById('modal-add-btn').onclick = () => { addToCart(p.id); closeProductModal(); };
         document.getElementById('product-modal').style.display = 'flex';
         document.body.style.overflow = 'hidden';
+        document.getElementById('modal-desc-container').scrollTop = 0;
     }
 
     function closeProductModal() { 
