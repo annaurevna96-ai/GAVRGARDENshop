@@ -70,24 +70,25 @@
 
         /* ОБЩИЕ СТИЛИ МОДАЛОК */
         .modal-overlay {
-            display: none;
+            display: none !important; /* Гарантируем скрытие при загрузке */
             position: fixed;
             inset: 0;
             background-color: rgba(0,0,0,0.7);
             z-index: 2000;
+            padding: 20px;
             backdrop-filter: blur(2px);
         }
 
-        /* КАРТОЧКА ТОВАРА */
+        /* КАРТОЧКА ТОВАРА - ОБНОВЛЕННАЯ СТРУКТУРА */
         #product-modal .modal-content-wrapper {
             background: white;
-            width: 95%;
-            max-width: 850px;
-            max-height: 85vh; /* Ограничение высоты */
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh; 
             margin: auto;
-            border-radius: 8px;
+            border-radius: 12px;
             position: relative;
-            overflow-y: auto; /* Прокрутка внутри */
+            overflow: hidden; /* Скрываем общий скролл */
             display: flex;
             flex-direction: column;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
@@ -112,22 +113,23 @@
 
         /* КНОПКИ ЗАКРЫТИЯ */
         .close-btn {
-            position: sticky;
-            top: 0;
-            right: 0;
-            float: right;
+            position: absolute;
+            top: 10px;
+            right: 10px;
             z-index: 2100;
-            background: white;
-            width: 45px;
-            height: 45px;
+            background: rgba(255,255,255,0.8);
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
-            color: #999;
+            font-size: 24px;
+            color: #333;
             cursor: pointer;
+            transition: 0.3s;
         }
-        .close-btn:hover { color: #000; }
+        .close-btn:hover { background: #fff; color: #000; }
 
         @media (max-width: 768px) {
             .nav-links {
@@ -144,7 +146,7 @@
             }
             .nav-links.active { display: flex; }
             .burger-menu { display: flex; }
-            #product-modal .modal-content-wrapper { flex-direction: column; max-height: 95vh; }
+            #product-modal .modal-content-wrapper { max-height: 95vh; overflow-y: auto; }
         }
     </style>
 </head>
@@ -218,24 +220,40 @@
     <div id="products-grid" class="hidden grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"></div>
 </main>
 
-<div id="product-modal" class="modal-overlay flex items-center justify-center">
+<div id="product-modal" class="modal-overlay flex items-center justify-center" style="display: none !important;">
     <div class="modal-content-wrapper">
         <div class="close-btn" onclick="closeProductModal()">&times;</div>
-        <div class="flex flex-col md:flex-row h-full">
-            <div class="md:w-1/2 h-64 md:h-auto bg-gray-100">
-                <img id="modal-img" src="" class="w-full h-full object-cover">
+        <div class="flex flex-col md:flex-row h-full overflow-hidden">
+            <div class="md:w-1/2 bg-gray-50 flex items-center justify-center overflow-hidden">
+                <img id="modal-img" src="" class="w-full h-full object-contain max-h-[40vh] md:max-h-full">
             </div>
-            <div class="md:w-1/2 p-6 md:p-8 flex flex-col">
-                <p id="modal-latin" class="text-[9px] text-gray-400 uppercase italic mb-1"></p>
-                <h2 id="modal-name" class="text-xl font-bold text-[#2d5a27] mb-4 uppercase"></h2>
-                <div class="text-sm space-y-2 mb-6">
-                    <p><b>Горшок:</b> <span id="modal-pot"></span></p>
-                    <p><b>Статус:</b> <span id="modal-status"></span></p>
-                    <div id="modal-desc" class="text-gray-600 leading-relaxed"></div>
+            <div class="md:w-1/2 p-6 md:p-10 flex flex-col h-full bg-white overflow-hidden">
+                <div class="flex-grow overflow-y-auto pr-2">
+                    <p id="modal-latin" class="text-[10px] text-gray-400 uppercase italic mb-1 tracking-widest"></p>
+                    <h2 id="modal-name" class="text-xl md:text-2xl font-bold text-[#2d5a27] mb-6 uppercase leading-tight"></h2>
+                    
+                    <div class="text-sm space-y-4 mb-8">
+                        <div class="flex justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-400">Горшок:</span>
+                            <span id="modal-pot" class="font-bold"></span>
+                        </div>
+                        <div class="flex justify-between border-b border-gray-100 pb-2">
+                            <span class="text-gray-400">Статус:</span>
+                            <span id="modal-status" class="font-bold text-lime-600"></span>
+                        </div>
+                        <div class="pt-2">
+                            <span class="text-gray-400 block mb-2">Описание:</span>
+                            <div id="modal-desc" class="text-gray-600 leading-relaxed italic text-[13px]"></div>
+                        </div>
+                    </div>
                 </div>
-                <div class="mt-auto border-t pt-4">
-                    <p id="modal-price" class="text-2xl font-bold mb-4"></p>
-                    <button id="modal-add-btn" class="w-full bg-[#8bc34a] text-white py-4 font-bold uppercase tracking-widest hover:bg-green-600 transition">Добавить в корзину</button>
+
+                <div class="mt-6 border-t pt-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <span class="text-gray-400 uppercase text-[10px] tracking-widest">Стоимость:</span>
+                        <p id="modal-price" class="text-3xl font-bold text-gray-900"></p>
+                    </div>
+                    <button id="modal-add-btn" class="w-full bg-[#8bc34a] text-white py-5 font-bold uppercase tracking-widest hover:bg-green-600 transition shadow-lg shadow-lime-100">Добавить в корзину</button>
                 </div>
             </div>
         </div>
@@ -315,7 +333,7 @@
                         <h3 class="font-bold text-[#2d5a27] mb-1 uppercase text-xs leading-tight">
                             ${p.name.includes('|') ? `${p.name.split('|')[0]}<br><span class="font-light opacity-80 text-[10px]">${p.name.split('|')[1]}</span>` : p.name}
                         </h3>
-                        <p class="text-[10px] text-gray-500 mb-2 italic">Горшок: ${p.pot || '—'}</p>
+                        <p class="text-[10px] text-gray-500 mb-2 italic">Горшок: ${p.pot || '-'}</p>
                         <p class="text-base font-bold mb-4">${p.price} ₽</p>
                     </div>
                 </div>
@@ -343,28 +361,31 @@
         if(!p) return;
         document.getElementById('modal-name').innerText = p.name.replace('|', ' ');
         document.getElementById('modal-latin').innerText = p.latinName || '';
-        document.getElementById('modal-pot').innerText = p.pot || '—';
+        document.getElementById('modal-pot').innerText = p.pot || '-';
         document.getElementById('modal-status').innerText = p.status || 'под заказ';
         document.getElementById('modal-desc').innerHTML = p.description || 'Описание уточняется.';
         document.getElementById('modal-price').innerText = p.price + ' ₽';
         document.getElementById('modal-img').src = p.image;
         document.getElementById('modal-add-btn').onclick = () => { addToCart(p.id); closeProductModal(); };
-        document.getElementById('product-modal').style.display = 'flex';
+        
+        const modal = document.getElementById('product-modal');
+        modal.style.setProperty('display', 'flex', 'important');
         document.body.style.overflow = 'hidden';
     }
 
     function closeProductModal() { 
-        document.getElementById('product-modal').style.display = 'none'; 
+        const modal = document.getElementById('product-modal');
+        modal.style.setProperty('display', 'none', 'important');
         document.body.style.overflow = 'auto';
     }
 
     function toggleCart() { 
         const cartModal = document.getElementById('cart-modal');
         if(cartModal.style.display === 'flex') {
-            cartModal.style.display = 'none';
+            cartModal.style.setProperty('display', 'none', 'important');
             document.body.style.overflow = 'auto';
         } else {
-            cartModal.style.display = 'flex';
+            cartModal.style.setProperty('display', 'flex', 'important');
             document.body.style.overflow = 'hidden';
             renderCart();
         }
@@ -447,7 +468,7 @@
         const total = document.getElementById('cart-total').innerText;
         const payment = document.getElementById('payment-method').value;
 
-        const itemsList = cart.map(item => `• ${item.name} (${item.pot || '—'}) - ${item.quantity} шт. x ${item.price} ₽`).join('\n');
+        const itemsList = cart.map(item => `• ${item.name} (${item.pot || '-'}) - ${item.quantity} шт. x ${item.price} ₽`).join('\n');
         
         const emailParams = {
             order_number: orderNum,
