@@ -283,40 +283,34 @@ modal-desc-container::-webkit-scrollbar-thumb {
         </div>
     </div>
 </section>
-<div id="product-modal" class="modal-overlay">
-    <div class="modal-content-wrapper">
-        <div class="close-btn" onclick="closeProductModal()">&times;</div>
+<div id="product-modal" class="modal-overlay" style="display: none; align-items: center; justify-content: center; padding: 10px;">
+    <div class="modal-content-wrapper" style="width: 100%; max-width: 500px; background: white; border-radius: 15px; position: relative; max-height: 95vh; display: flex; flex-direction: column; overflow: hidden;">
         
-        <div class="flex flex-col md:flex-row h-full overflow-hidden">
-            <div class="md:w-1/2 h-64 md:h-full bg-gray-100 flex items-center justify-center">
-                <img id="modal-img" src="" class="w-full h-full object-contain">
+        <div class="close-btn" onclick="closeProductModal()" style="position: absolute; top: 15px; right: 15px; z-index: 50; background: rgba(255,255,255,0.8); width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer;">&times;</div>
+
+        <div style="overflow-y: auto; flex-grow: 1;">
+            <div style="width: 100%; background: #f3f4f6;">
+                <img id="modal-img" src="" style="width: 100%; height: auto; display: block; object-fit: cover;">
             </div>
 
-            <div class="md:w-1/2 flex flex-col h-full bg-white">
-                <div id="modal-desc-container" class="p-6 md:p-8 overflow-y-auto flex-grow">
-                    <p id="modal-latin" class="text-[10px] text-gray-400 uppercase mb-1 tracking-widest"></p>
-                    <h2 id="modal-name" class="text-xl md:text-2xl font-bold text-[#2d5a27] mb-4 uppercase leading-tight"></h2>
-                    
-                    <div class="text-sm space-y-3 mb-6">
-                        <p class="flex justify-between border-b pb-1">
-                            <b>Горшок:</b> <span id="modal-pot"></span>
-                        </p>
-                        <p class="flex justify-between border-b pb-1">
-                            <b>Статус:</b> <span id="modal-status" class="text-lime-600"></span>
-                        </p>
-                        <div id="modal-desc" class="text-gray-600 leading-relaxed pt-2">
-                            </div>
-                    </div>
+            <div class="p-6">
+                <p id="modal-latin" class="text-[10px] text-gray-400 uppercase tracking-widest mb-1"></p>
+                <h2 id="modal-name" class="text-xl font-bold text-[#2d5a27] uppercase mb-4 leading-tight"></h2>
+                
+                <div class="text-sm space-y-3 mb-6">
+                    <p class="flex justify-between border-b pb-1"><b>Горшок:</b> <span id="modal-pot"></span></p>
+                    <p class="flex justify-between border-b pb-1"><b>Статус:</b> <span id="modal-status" class="text-lime-600"></span></p>
+                    <div id="modal-desc" class="text-gray-600 leading-relaxed pt-2"></div>
                 </div>
+            </div>
+        </div>
 
-                <div class="mt-auto border-t p-6 bg-gray-50">
-                    <p id="modal-price" class="text-2xl font-bold mb-4 text-gray-900"></p>
-                    <button id="modal-add-btn" class="w-full bg-[#8bc34a] text-white py-4 font-bold uppercase tracking-widest hover:bg-green-600 transition shadow-md">
-                        Добавить в корзину
-                    </button>
-                </div>
-            </div>
-            </div>
+        <div class="p-6 bg-gray-50 border-t">
+            <p id="modal-price" class="text-2xl font-bold mb-4 text-gray-900"></p>
+            <button id="modal-add-btn" class="w-full bg-[#8bc34a] text-white py-4 font-bold uppercase tracking-widest hover:bg-green-600 transition shadow-md rounded-lg">
+                Добавить в корзину
+            </button>
+        </div>
     </div>
 </div>
 
