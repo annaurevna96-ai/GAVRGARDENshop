@@ -177,8 +177,15 @@
     <h1 id="page-title" class="text-xl md:text-3xl font-bold text-[#2d5a27] mb-4 md:mb-6 uppercase">Категории растений</h1>
 
     <div class="mb-10 max-w-xl">
-        <div class="relative">
-            <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Найти растение (например: Спирея)..." class="w-full border-b-2 border-gray-100 py-3 pl-2 pr-10 focus:border-[#8bc34a] outline-none transition-colors text-sm uppercase tracking-wider font-light">
+        <div class="relative group">
+            <input type="text" id="search-input" oninput="handleSearch(this.value)" placeholder="Найти растение (например: Спирея)..." class="w-full border-b-2 border-gray-100 py-3 pl-2 pr-16 focus:border-[#8bc34a] outline-none transition-colors text-sm uppercase tracking-wider font-light">
+            
+            <button id="clear-search" onclick="clearSearch()" class="hidden absolute right-10 top-3 text-gray-300 hover:text-red-400 transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+
             <div class="absolute right-2 top-3 text-gray-300">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
             </div>
@@ -339,13 +346,18 @@
             updateCartIcon();
         });
 
-    // ФУНКЦИЯ ПОИСКА
+    // ФУНКЦИЯ ПОИСКА (ОБНОВЛЕНА)
     function handleSearch(query) {
         const q = query.toLowerCase().trim();
+        const clearBtn = document.getElementById('clear-search');
+
         if (q === '') {
+            clearBtn.classList.add('hidden');
             showCategories();
             return;
         }
+
+        clearBtn.classList.remove('hidden');
         const filtered = allProducts.filter(p => 
             p.name.toLowerCase().includes(q) || 
             (p.latinName && p.latinName.toLowerCase().includes(q))
@@ -354,12 +366,21 @@
         document.getElementById('back-to-categories').classList.remove('hidden');
     }
 
+    // ФУНКЦИЯ ОЧИСТКИ (НОВАЯ)
+    function clearSearch() {
+        const input = document.getElementById('search-input');
+        input.value = '';
+        handleSearch('');
+        input.focus();
+    }
+
     function showCategories() {
         document.getElementById('categories-grid').classList.remove('hidden');
         document.getElementById('products-grid').classList.add('hidden');
         document.getElementById('back-to-categories').classList.add('hidden');
         document.getElementById('page-title').innerText = "Категории растений";
-        document.getElementById('search-input').value = ''; // Очищаем поиск при возврате
+        document.getElementById('search-input').value = ''; 
+        document.getElementById('clear-search').classList.add('hidden'); // Скрываем крестик
         window.scrollTo(0,0);
     }
 
