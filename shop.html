@@ -381,7 +381,7 @@
         document.getElementById('modal-latin').innerText = p.latinName || '';
         document.getElementById('modal-pot').innerText = p.pot || '—';
         document.getElementById('modal-status').innerText = p.status || 'под заказ';
-        document.getElementById('modal-desc').innerText = p.description || 'Описание уточняется.';
+        document.getElementById('modal-desc').innerHTML = p.description || 'Описание уточняется.';
         document.getElementById('modal-price').innerText = p.price + ' ₽';
         document.getElementById('modal-img').src = p.image;
         document.getElementById('modal-add-btn').onclick = () => { addToCart(p.id); closeProductModal(); };
