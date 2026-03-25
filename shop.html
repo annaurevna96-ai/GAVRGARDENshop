@@ -142,7 +142,7 @@
         
         <div class="burger-menu" id="burger-menu">
             <span></span>
-            <span></span>
+            <span></span>function renderProducts
             <span></span>
         </div>
     </div>
@@ -344,7 +344,11 @@
                 <img src="${p.image}" class="w-full h-48 md:h-56 object-cover" alt="${p.name}" itemprop="image">
                 <div class="p-4 text-center flex-grow">
                     <p class="text-[9px] text-gray-400 uppercase tracking-widest mb-1 italic">${p.latinName || ''}</p>
-                    <h3 class="font-bold brand-green mb-1 uppercase text-xs leading-tight">${p.name}</h3>
+                   <h3 class="font-bold brand-green mb-1 uppercase text-xs leading-tight">
+    ${p.name.includes('|') 
+        ? `${p.name.split('|')[0]}<br><span class="font-light opacity-80 text-[10px]">${p.name.split('|')[1]}</span>` 
+        : p.name}
+</h3>
                     <div class="hidden" aria-hidden="true">${p.seo_keywords || ''}</div>
                     <p class="text-[10px] text-gray-500 mb-2 italic">Горшок: ${p.pot || '—'}</p>
                     <p class="text-base font-bold mb-4">${p.price} ₽</p>
