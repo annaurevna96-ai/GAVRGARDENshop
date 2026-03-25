@@ -125,32 +125,32 @@
 .modal {
     display: none; 
     position: fixed;
-    z-index: 2000; /* Выше шапки */
+    z-index: 2000; 
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.6); /* Чуть темнее для фокуса */
-    backdrop-filter: blur(3px); /* Легкое размытие фона */
+    background-color: rgba(0,0,0,0.6); 
+    backdrop-filter: blur(3px); 
 }
 
-/* Само белое окно */
+
 .modal-content {
     background-color: #fff;
-    margin: auto;
-    padding: 0;
+    margin: 20px auto;
     width: 95%;
-    max-width: 700px; /* Оптимальная ширина */
-    max-height: 85vh; /* Не выше 85% экрана */
-    border-radius: 4px; /* Совсем чуть-чуть скруглим углы */
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%); /* Строго по центру экрана */
-    overflow-y: auto; /* Прокрутка только ВНУТРИ окна */
-    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    max-width: 600px;
+    
+    max-height: 80vh;    
+    overflow-y: auto;   
+    position: relative; 
+    
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    padding: 20px;
 }
 
-/* Кнопка закрытия (Крестик) */
+
 .close-button {
     position: sticky; /* Липкий! Не уедет при прокрутке описания */
     top: 0;
