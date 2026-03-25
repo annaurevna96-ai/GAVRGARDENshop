@@ -194,6 +194,28 @@
         padding: 20px;
     }
 }
+      /* Специально для окна корзины */
+#cart-modal .modal-content {
+    max-height: 80vh;    /* Ограничиваем высоту до 80% экрана */
+    display: flex;       /* Включаем гибкую структуру */
+    flex-direction: column; 
+    overflow: hidden;    /* Само окно не скроллится, скроллим только список товаров */
+}
+
+/* Список товаров внутри корзины */
+#cart-items {
+    overflow-y: auto;    /* Прокрутка только для списка саженцев */
+    flex-grow: 1;        /* Список занимает всё свободное место */
+    padding: 10px;
+}
+
+/* Фиксируем кнопку закрытия в корзине */
+#cart-modal .close-button {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    z-index: 1010;
+}
 </style>
 </head>
 <body class="bg-white text-gray-800">
