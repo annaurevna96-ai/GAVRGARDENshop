@@ -8,50 +8,34 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Montserrat', sans-serif; color: #333; -webkit-tap-highlight-color: transparent; }
-        
-        /* Цвета из стиля магазина */
         .text-dark-green { color: #2d5a27; }
         .bg-dark-green { background-color: #2d5a27; }
         .text-shop-gray { color: #4a4a4a; }
         .hover-lime:hover { color: #8bc34a !important; }
 
-        /* Стили шапки из shop.html */
         header { 
-            background: #fff; 
-            border-bottom: 1px solid #f0f0f0; 
-            position: sticky; 
-            top: 0; 
-            z-index: 1000; 
-            padding: 20px 5%; /* Отступы как в магазине */
+            background: #fff; border-bottom: 1px solid #f0f0f0; 
+            position: sticky; top: 0; z-index: 1000; padding: 20px 5%; 
         }
 
-        .logo { 
-            font-size: 24px; 
-            font-weight: 300; 
-            letter-spacing: 4px; 
-            color: #2d5a27; 
-            text-transform: uppercase; 
-            cursor: pointer; 
-        }
+        .logo { font-size: 24px; font-weight: 300; letter-spacing: 4px; color: #2d5a27; text-transform: uppercase; cursor: pointer; }
         .logo span { font-weight: 700; color: #2d5a27; }
 
-        .nav-links a {
-            text-decoration: none;
-            font-weight: 400;
-            font-size: 13px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            transition: 0.3s;
-        }
+        .nav-links a { text-decoration: none; font-weight: 400; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; transition: 0.3s; }
 
         .cart-icon img { width: 22px; filter: grayscale(1); }
-        #cart-count {
-            position: absolute; top: -8px; right: -10px;
-            background: #ef4444; color: white; font-size: 9px;
-            padding: 2px 5px; border-radius: 50%;
-        }
+        #cart-count { position: absolute; top: -8px; right: -10px; background: #ef4444; color: white; font-size: 9px; padding: 2px 5px; border-radius: 50%; }
 
-        /* Адаптивность для карты */
+        /* СТИЛИ ИЗ SHOP.HTML */
+        .social-icons { display: flex; gap: 15px; margin-top: 20px; }
+        .social-icons a {
+            display: flex; align-items: center; justify-content: center;
+            width: 40px; height: 40px; background: #f5f5f5; border-radius: 50%;
+            transition: 0.3s;
+        }
+        .social-icons a:hover { background: #e0e0e0; transform: translateY(-3px); }
+        .social-icons svg { width: 20px; height: 20px; fill: #4a4a4a; }
+
         .map-container { position: relative; overflow: hidden; border-radius: 1rem; height: 100%; min-height: 400px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1); }
     </style>
 </head>
@@ -59,22 +43,18 @@
 
     <header class="flex justify-between items-center">
         <div class="logo" onclick="location.href='index.html'">ГАВР<span>САД</span></div>
-        
         <nav class="nav-links hidden md:flex gap-[35px]">
             <a href="index.html" class="text-shop-gray hover-lime">ГЛАВНАЯ</a>
             <a href="shop.html" class="text-shop-gray hover-lime">МАГАЗИН</a>
             <a href="services.html" class="text-shop-gray hover-lime">УСЛУГИ</a>
             <a href="contacts.html" class="text-lime-600 font-bold">КОНТАКТЫ</a>
         </nav>
-        
         <div class="flex items-center gap-6">
             <a href="tel:+79932460921" class="hidden lg:block font-bold text-dark-green text-sm">+7 (993) 246-09-21</a>
-            
             <div class="cart-icon relative cursor-pointer" onclick="location.href='shop.html'">
                 <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="Корзина">
                 <span id="cart-count">0</span>
             </div>
-
             <a href="shop.html" class="hidden sm:block bg-dark-green text-white px-6 py-2 rounded-full text-xs font-bold hover:bg-opacity-90 transition shadow-md uppercase tracking-wider">Купить растения</a>
         </div>
     </header>
@@ -83,9 +63,7 @@
         <h1 class="text-3xl md:text-4xl font-bold text-center mb-12 uppercase tracking-tighter text-dark-green">Контакты и доставка</h1>
 
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            
             <div class="space-y-6">
-                
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                     <h2 class="text-xl font-bold mb-6 text-dark-green uppercase tracking-tight italic">Наш питомник</h2>
                     <div class="space-y-4">
@@ -93,17 +71,20 @@
                             <span class="text-2xl mr-4">📍</span>
                             <div>
                                 <p class="font-bold text-gray-900">Адрес:</p>
-                                <p class="text-sm text-gray-600 leading-relaxed">МО, г.о. Воскресенск, д. Цибино, ул. Благодатная, 103</p>
+                                <p class="text-sm text-gray-600">МО, г.о. Воскресенск, д. Цибино, ул. Благодатная, 103</p>
                             </div>
                         </div>
-                        <div class="flex items-start pt-2">
-                            <span class="text-2xl mr-4">📞</span>
-                            <div>
-                                <p class="font-bold text-gray-900">Телефон / WhatsApp:</p>
-                                <a href="tel:+79932460921" class="text-lime-600 font-bold hover:underline">+7 (993) 246-09-21</a>
-                            </div>
+                        
+                        <div class="social-icons">
+                            <a href="https://t.me/79932460921" target="_blank">
+                                <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm4.64 6.8c-.15 1.58-.8 5.42-1.13 7.19-.14.75-.42 1-.68 1.03-.58.05-1.02-.38-1.58-.75-.88-.58-1.38-.94-2.23-1.5-.99-.65-.35-1.01.22-1.59.15-.15 2.71-2.48 2.76-2.69.01-.03.01-.14-.07-.2-.08-.06-.19-.04-.27-.02-.11.02-1.93 1.23-5.46 3.62-.51.35-.98.52-1.4.51-.46-.01-1.35-.26-2.01-.48-.81-.27-1.46-.42-1.4-.88.03-.24.38-.49 1.04-.74 4.06-1.77 6.77-2.93 8.12-3.47 3.87-1.53 4.68-1.8 5.21-1.81.12 0 .38.03.55.17.14.12.18.28.19.4-.01.06.01.24 0 .33z"/></svg>
+                            </a>
+                            <a href="https://vk.com/landscape_in_mind" target="_blank">
+                                <svg viewBox="0 0 24 24"><path d="M15.073 2H8.937C3.338 2 2 3.338 2 8.937V15.063C2 20.662 3.338 22 8.937 22H15.063C20.662 22 22 20.662 22 15.063V8.937C22 3.338 20.662 2 15.073 2ZM17.202 15.962C17.202 16.321 16.924 16.634 16.586 16.634H15.424C15.006 16.634 14.836 16.366 14.025 15.548C13.256 14.773 12.927 14.619 12.637 14.619C12.228 14.619 12.109 14.896 12.109 15.424V15.989C12.109 16.417 11.975 16.634 11.538 16.634C9.52 16.634 7.426 15.352 6.079 13.435C4.767 11.554 4.195 9.423 4.195 8.963C4.195 8.597 4.338 8.365 4.775 8.365H5.937C6.303 8.365 6.446 8.544 6.571 8.91C7.169 10.635 8.169 12.012 8.651 12.012C8.83 12.012 8.928 11.923 8.928 11.395V9.458C8.928 8.823 8.74 8.681 8.232 8.601C8.463 8.019 9.062 7.743 9.874 7.743H10.151C10.927 7.743 11.124 8.127 11.124 8.788V11.753C11.124 12.083 11.267 12.173 11.392 12.173C11.606 12.173 11.83 12.065 12.33 11.556C13.267 10.592 13.91 8.981 13.91 8.981C14.017 8.722 14.195 8.365 14.651 8.365H15.813C16.251 8.365 16.367 8.579 16.251 8.946C15.653 10.456 14.331 11.932 14.331 12.245C14.331 12.441 14.474 12.584 14.733 12.798C15.545 13.451 16.483 14.389 16.894 15.193C17.099 15.594 17.202 15.817 17.202 15.962Z"/></svg>
+                            </a>
                         </div>
-                        <div class="flex items-start pt-2">
+
+                        <div class="flex items-start pt-6">
                             <span class="text-2xl mr-4">✉️</span>
                             <div>
                                 <p class="font-bold text-gray-900">Email:</p>
@@ -115,37 +96,34 @@
 
                 <div class="bg-white p-8 rounded-2xl shadow-sm border border-gray-100">
                     <h2 class="text-xl font-bold mb-6 text-dark-green uppercase tracking-tight italic">Как получить заказ</h2>
-                    
                     <div class="mb-6 pb-6 border-b border-gray-50">
-                        <h3 class="font-bold text-gray-800 mb-2">🏠 Самовывоз — Бесплатно</h3>
-                        <p class="text-sm text-gray-600 leading-relaxed">
+                        <h3 class="font-bold text-gray-800 mb-2 text-sm uppercase">🏠 Самовывоз — Бесплатно</h3>
+                        <p class="text-xs text-gray-600 leading-relaxed">
                             Забрать растения можно прямо из питомника в Цибино. <br>
                             <span class="text-amber-800 font-semibold bg-amber-50 px-2 py-1 rounded">Обязательно: согласуйте время визита заранее по телефону!</span>
                         </p>
                     </div>
-
                     <div>
-                        <h3 class="font-bold text-gray-800 mb-2">🚚 Доставка</h3>
-                        <ul class="text-sm text-gray-600 space-y-2">
+                        <h3 class="font-bold text-gray-800 mb-2 text-sm uppercase">🚚 Доставка</h3>
+                        <ul class="text-xs text-gray-600 space-y-2">
                             <li class="italic">- Собственная доставка по Московской области.</li>
-                            <li class="italic">- Стоимость доставки рассчитывается индивидуально.</li>
-                            <li class="italic">- Отправка СДЭК, Яндекс, ОЗОН, Почта по всей России (для P9 и C3).</li>
+                            <li class="italic">- Стоимость рассчитывается индивидуально.</li>
+                            <li class="italic">- Отправка СДЭК, Яндекс, ОЗОН, Почта по всей России (P9 и C3).</li>
                         </ul>
                     </div>
                 </div>
             </div>
 
             <div class="map-container">
-                <iframe src="https://yandex.ru/map-widget/v1/?ll=38.455246%2C55.459461&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjY5MzE0ORJB0KDQvtGB0YHQuNGPLCDQnNC-0YHQutC-0LLRgdC60LDRjyDQvtCx0LvQsNGB0YLRjCwg0KDQsNC80LXQvdGB0LxC0Qu0YDRgdC60LDRuSDRgdC-0LLQtdGCLCDQtNC10YDQtdCy0L3RjyDQptC40LHQuNC90L4sINCj0LvQuNGG0LAg0JHQu9Cw0LPQватная, 103" width="100%" height="100%" frameborder="0" allowfullscreen="true" style="position:relative;"></iframe>
+                <iframe src="https://yandex.ru/map-widget/v1/?ll=38.455246%2C55.459461&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjY5MzE0ORJB0KDQvtGB0YHQuNGPLCDQnNC-0YHQutC-0LLRgdC60LDRjyDQvtCx0LvQsNGB0YLRjCwg0KDQsNC80LXQvdGB0LxC0Qu0YDRgdC60LDRuSDRgdC-0LLQtdGCLCDQtNC10YDQtdCy0L3RjyDQptC40LHQu–9C4INCj0LvQuNGG0LAg0JHQu9Cw0LPQvtC00LDRgtC90LDRjCwgMTAzIgoN7ZAVQhVCEF9C&z=17" width="100%" height="100%" frameborder="0" allowfullscreen="true" style="position:relative;"></iframe>
             </div>
-
         </div>
     </main>
 
     <footer class="bg-stone-900 text-white py-12 mt-12">
         <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12 text-center md:text-left">
             <div>
-                <div class="logo !color-white !text-xl mb-4">ГАВР<span>САД</span></div>
+                <div class="logo !text-white !text-xl mb-4" style="color:white">ГАВР<span>САД</span></div>
                 <p class="text-gray-400 text-xs leading-relaxed">Профессиональные саженцы из Подмосковья. Создаем сады, которые меняют жизнь.</p>
             </div>
             <div>
@@ -160,16 +138,13 @@
             <div>
                 <h4 class="font-bold mb-4 uppercase text-xs tracking-widest text-lime-500">Где мы?</h4>
                 <p class="text-gray-400 text-xs mb-2">МО, г.о. Воскресенск, д. Цибино, ул. Благодатная, 103</p>
-                <p class="text-gray-400 text-xs italic">WhatsApp: +7 (993) 347-20-96</p>
+                <p class="text-gray-400 text-xs italic">Тел: +7 (993) 246-09-21</p>
             </div>
         </div>
         <div class="container mx-auto px-6 mt-12 pt-8 border-t border-stone-800 text-center text-[10px] text-gray-600 uppercase tracking-widest">
             &copy; 2026 GAVRGARDEN
         </div>
     </footer>
-
-</body>
-</html>
 
 </body>
 </html>
