@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Контакты и Доставка - ГАВРСАД</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Montserrat', sans-serif; color: #333; -webkit-tap-highlight-color: transparent; }
+        .text-dark-green { color: #2d5a27; }
+        .bg-dark-green { background-color: #2d5a27; }
+        header { background: #fff; border-bottom: 1px solid #f3f4f6; position: sticky; top: 0; z-index: 1000; }
+        .map-container { position: relative; overflow: hidden; border-radius: 1rem; height: 100%; min-height: 450px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+    </style>
+</head>
+<body class="bg-stone-50">
+
+    <header class="flex justify-between items-center py-4 px-[5%]">
+        <div class="logo font-bold text-xl tracking-tighter uppercase cursor-pointer" onclick="location.href='index.html'">ГАВРСАД</div>
+        <nav class="hidden md:flex space-x-8 text-sm font-semibold uppercase tracking-wide">
+            <a href="index.html" class="hover:text-lime-600 transition text-gray-500">Главная</a>
+            <a href="shop.html" class="hover:text-lime-600 transition text-gray-500">Магазин</a>
+            <a href="services.html" class="hover:text-lime-600 transition text-gray-500">Услуги по уходу</a>
+            <a href="contacts.html" class="text-lime-600 transition font-bold">Контакты</a>
+        </nav>
+        <div class="flex items-center gap-4">
+            <a href="shop.html" class="hidden sm:block bg-dark-green text-white px-6 py-2 rounded-full text-sm font-bold hover:bg-opacity-90 transition shadow-md">Купить растения</a>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-6 py-12 md:py-20">
+        <h1 class="text-3xl md:text-5xl font-bold text-center mb-16 uppercase tracking-tighter">Контакты и доставка</h1>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            <div class="space-y-8">
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-gray-50">
+                    <h2 class="text-xl font-bold mb-8 text-dark-green uppercase tracking-tight italic">Наш питомник</h2>
+                    <div class="space-y-6">
+                        <div class="flex items-start">
+                            <span class="text-2xl mr-4">📍</span>
+                            <div>
+                                <p class="font-bold text-gray-900">Адрес:</p>
+                                <p class="text-gray-600 leading-relaxed">МО, г.о. Воскресенск, д. Цибино, ул. Благодатная, 103</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start pt-2">
+                            <span class="text-2xl mr-4">📞</span>
+                            <div>
+                                <p class="font-bold text-gray-900">Телефон / WhatsApp:</p>
+                                <a href="tel:+79932460921" class="text-lime-600 font-bold text-lg hover:underline">+7 (993) 246-09-21</a>
+                            </div>
+                        </div>
+                        <div class="flex items-start pt-2">
+                            <span class="text-2xl mr-4">✉️</span>
+                            <div>
+                                <p class="font-bold text-gray-900">Email:</p>
+                                <p class="text-gray-600 font-medium text-sm">landscape-in-mind@yandex.ru</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-8 md:p-10 rounded-3xl shadow-sm border border-gray-100">
+                    <h2 class="text-xl font-bold mb-8 text-dark-green uppercase tracking-tight italic">Как получить заказ</h2>
+                    
+                    <div class="mb-8 pb-8 border-b border-gray-50">
+                        <h3 class="font-bold text-gray-800 mb-3 flex items-center text-lg">
+                            <span class="mr-2">🏡</span> Самовывоз — Бесплатно
+                        </h3>
+                        <p class="text-gray-600 leading-relaxed">
+                            Забрать растения можно прямо из питомника в Цибино. <br>
+                            <span class="text-amber-800 font-semibold bg-amber-50 px-2 py-1 rounded">Обязательно: согласуйте время визита заранее по телефону!</span>
+                        </p>
+                    </div>
+
+                    <div>
+                        <h3 class="font-bold text-gray-800 mb-4 flex items-center text-lg">
+                            <span class="mr-2">🚚</span> Доставка
+                        </h3>
+                        <ul class="text-gray-600 space-y-3 text-sm">
+                            <li class="flex items-start italic">- Собственная доставка по Московской области.</li>
+                            <li class="flex items-start italic">- Стоимость доставки рассчитывается индивидуально в зависимости от объема заказа.</li>
+                            <li class="flex items-start italic">- Отправка СДЭК, Яндекс, ОЗОН, Почта по всей России для растений в контейнерах P9 и C3.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <iframe src="https://yandex.ru/map-widget/v1/?ll=38.455246%2C55.459461&mode=search&ol=geo&ouri=ymapsbm1%3A%2F%2Fgeo%3Fdata%3DCgg1NjY5MzE0ORJB0KDQvtGB0YHQuNGPLCDQnNC-0YHQutC-0LLRgdC60LDRjyDQvtCx0LvQsNGB0YLRjCwg0KDQsNC80LXQvdGB0LxC0Qu0YDRgdC60LDRuSDRgdC-0LLQtdGCLCDQtNC10YDQtdCy0L3RjyDQptC40LHQuNC90L4sINCj0LvQuNGG0LAg0JHQu9Cw0LPQvtC00LDRgtC90LDRjCwgMTAzIgoN7ZAVQhVCEF9C&z=15" width="100%" height="100%" frameborder="0" allowfullscreen="true" style="position:relative;"></iframe>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="bg-stone-900 text-white py-16">
+        <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-3 gap-12">
+            <div>
+                <div class="text-2xl font-bold mb-6 tracking-tighter uppercase text-lime-500">ГАВРСАД</div>
+                <p class="text-gray-400 text-sm leading-relaxed">Профессиональные саженцы из Подмосковья. Создаем сады, которые меняют жизнь.</p>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 uppercase text-sm tracking-widest">Навигация</h4>
+                <ul class="space-y-4 text-gray-400 text-sm">
+                    <li><a href="index.html" class="hover:text-white transition">Главная</a></li>
+                    <li><a href="shop.html" class="hover:text-white transition text-gray-300">Каталог растений</a></li>
+                    <li><a href="services.html" class="hover:text-white transition text-gray-300">Услуги по уходу</a></li>
+                    <li><a href="contacts.html" class="hover:text-white transition text-white font-bold">Контакты</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-bold mb-6 uppercase text-sm tracking-widest text-lime-500">Где мы?</h4>
+                <p class="text-gray-400 text-sm mb-2">МО, г.о. Воскресенск, д. Цибино, ул. Благодатная, 103</p>
+                <p class="text-gray-400 text-sm italic">WhatsApp: +7 (993) 246-09-21</p>
+            </div>
+        </div>
+        <div class="container mx-auto px-6 mt-16 pt-8 border-t border-stone-800 text-center text-[10px] text-gray-600 uppercase tracking-widest font-bold">
+            &copy; 2026 GAVRGARDEN
+        </div>
+    </footer>
+
+</body>
+</html>
